@@ -33,6 +33,11 @@ public class CardController {
     public Status checkStatusById (@PathVariable("id")long id){
         return cardService.findStatusById(id);
     }
+    @PutMapping("/block/{cardNumber}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void blockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
+        cardService.blockCard(cardNumber);
+    }
 
     @PostMapping("/{iban}")
     @ResponseStatus(HttpStatus.CREATED)

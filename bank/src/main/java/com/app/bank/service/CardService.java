@@ -74,6 +74,19 @@ public class CardService {
             return false;}
 
     }
+    @Transactional
+    public void blockCard(long cardNumber) {
+        CardEntity cardToBeBlocked = repository.findById(findCardIdByCardNumber(cardNumber))
+                .orElseThrow(() -> new RuntimeException("The Card with the Card Number" + cardNumber + " is not valid"));
+        if (checkIfCardIsActive(cardNumber)) {
+            cardToBeBlocked.setStatus(Status.BLOCKED);
+            cardToBeBlocked.setLastUpdated(LocalDateTime.now());
+        } else {
+            System.out.println("The Card with the Card Number + " + cardNumber + " is already Blocked " );
+
+        }
+    }
+
 
 
    /* @Transactional

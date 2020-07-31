@@ -46,9 +46,9 @@ public class CardService {
 
     }
 
-    public CardDTO create(String iban, CardDTO cardDTO) {
-      AccountEntity accountEntity = accountRepository.findById(branchRepository.findIdByIban(iban))
-              .orElseThrow(()-> new RuntimeException("The IBAN " + iban + "you have provided, does not exists") );
+    public CardDTO create(long accountId, CardDTO cardDTO) {
+      AccountEntity accountEntity = accountRepository.findById(accountId)
+             .orElseThrow(()-> new RuntimeException("The Account Id " + accountId + "you have provided, does not exists") );
 
       CardEntity cardTobeSaved = cardToCardEntityMapper.convert(cardDTO);
       cardTobeSaved.setIban(accountEntity.getIban());

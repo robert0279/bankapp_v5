@@ -53,10 +53,10 @@ public class CardController {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
 
-    @PostMapping("/{iban}")
+    @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public CardDTO createCard(@PathVariable("iban") String iban, CardDTO cardDTO) {
-        return cardService.create(iban, cardDTO);
+    public CardDTO createCard(@PathVariable("id") long id, @RequestBody CardDTO cardDTO) {
+        return cardService.create(id, cardDTO);
     }
     @DeleteMapping("/delete/{cardNumber}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -22,6 +22,7 @@ public class UserService {
 
     public UserDTO create(UserDTO userDTO){
         UserEntity userEntity =userToUserEntityMapper.convert(userDTO);
+
         UserEntity savedEntity = repository.save(userEntity);
         return userEntityToUserMapper.convert(savedEntity);
     }

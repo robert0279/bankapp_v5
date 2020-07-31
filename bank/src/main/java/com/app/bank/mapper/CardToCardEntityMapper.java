@@ -1,0 +1,24 @@
+package com.app.bank.mapper;
+
+import com.app.bank.domain.entity.CardEntity;
+import com.app.bank.domain.model.CardDTO;
+import com.app.bank.domain.model.Status;
+import com.app.bank.repository.BranchRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+@Component
+@AllArgsConstructor
+public class CardToCardEntityMapper implements Converter<CardDTO, CardEntity> {
+    private final BranchRepository branchRepository;
+
+    @Override
+    public CardEntity convert(CardDTO source) {
+        return CardEntity.builder()
+                .cardNumber(branchRepository.passNewCardNumberToNewCard())
+                .pin(1234)
+                .status(Status.ACTIVE)
+                .build();
+    }
+}

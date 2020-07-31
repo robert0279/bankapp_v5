@@ -2,10 +2,7 @@ package com.app.bank.domain.entity;
 
 import com.app.bank.domain.model.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class CardEntity {
 
@@ -38,11 +36,9 @@ public class CardEntity {
 
     private LocalDateTime expirationDate;
 
-  //  @JsonIgnore
-  //  @ToString.Exclude
-  //  @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
-
-    @OneToMany
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
     @JoinColumn(name = "iban")
     private AccountEntity accountEntity;
 }

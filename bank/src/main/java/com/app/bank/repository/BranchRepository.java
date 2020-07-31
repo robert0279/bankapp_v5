@@ -42,7 +42,7 @@ public class BranchRepository {
     }
 
     @SneakyThrows
-    public String getFirstIbanNo() {
+   private String getFirstIbanNo() {
         BranchRepository branchRepository = new BranchRepository();
         long a = 0L;
         String query = "select no_iban from " + ibanTableName + " where id=" + branchRepository.findFirstIbanId();

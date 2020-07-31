@@ -29,7 +29,7 @@ public class UserEntity {
     private LocalDateTime creationDate;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity")
     private List<AccountEntity> accounts;
 
 

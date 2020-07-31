@@ -43,10 +43,10 @@ public class CardController {
     public  void unblockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
         cardService.unblockCard(cardNumber);
     }
-    @PutMapping("/pin/{cardNumber}")
+    @PatchMapping("/pin/{cardNumber}")
     @ResponseStatus(HttpStatus.CREATED)
     public void changePin (@PathVariable ("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
-                           @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain, @RequestBody CardDTO card){
+                           @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain){
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
 

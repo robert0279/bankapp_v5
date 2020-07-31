@@ -5,6 +5,7 @@ import com.app.bank.domain.entity.CardEntity;
 import com.app.bank.domain.model.AccountDTO;
 import com.app.bank.domain.model.CardDTO;
 import com.app.bank.domain.model.Status;
+import com.app.bank.exception.UserNotFindException;
 import com.app.bank.mapper.CardEntityToCardMapper;
 import com.app.bank.mapper.CardToCardEntityMapper;
 import com.app.bank.repository.AccountRepository;
@@ -164,7 +165,8 @@ public class CardService {
 
     @Transactional
     public void changePin (long cardNumber, int initialPin,int newPin, int newPinAgain){
-        CardEntity cardToChangePin =cardToCardEntityMapper.convert( findCardByCardNumber(cardNumber));
+        CardEntity cardToChangePin = repository.findById(branchRepository.findIdByCardNumber(cardNumber))
+                .orElseThrow(()->new RuntimeException("The Card number is wrong"));
         if (cardToChangePin.getPin() == initialPin && initialPin !=newPin){
             if (newPin == newPinAgain){
                 cardToChangePin.setPin(newPin);

@@ -18,41 +18,44 @@ public class CardController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CardDTO> findAll (){
+    public List<CardDTO> findAll() {
         return cardService.findAll();
     }
 
     @GetMapping("/cardNumber/{cardNumber}")
     @ResponseStatus(HttpStatus.OK)
-    public long findIdByCardNumber(@PathVariable("cardNumber")long cardNumber){
+    public long findIdByCardNumber(@PathVariable("cardNumber") long cardNumber) {
         return cardService.findCardIdByCardNumber(cardNumber);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Status checkStatusById (@PathVariable("id")long id){
+    public Status checkStatusById(@PathVariable("id") long id) {
         return cardService.findStatusById(id);
     }
+
     @PutMapping("/block/{cardNumber}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void blockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
+    public void blockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card) {
         cardService.blockCard(cardNumber);
     }
+
     @PatchMapping("/unblock/{cardNumber}")
     @ResponseStatus(HttpStatus.CREATED)
-    public  void unblockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
+    public void unblockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card) {
         cardService.unblockCard(cardNumber);
     }
+
     @PatchMapping("/pin/{cardNumber}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changePin (@PathVariable ("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
-                           @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain){
+    public void changePin(@PathVariable("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
+                          @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain) {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
 
     @PostMapping("/{iban}")
     @ResponseStatus(HttpStatus.CREATED)
-    public CardDTO createCard(@PathVariable("iban") String  iban, CardDTO cardDTO){
+    public CardDTO createCard(@PathVariable("iban") String iban, CardDTO cardDTO) {
         return cardService.create(iban, cardDTO);
     }
 

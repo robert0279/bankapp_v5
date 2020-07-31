@@ -34,6 +34,8 @@ public class AccountService {
 
     private final BranchRepository branchRepository;
 
+    private final CardService cardService;
+
     public List<AccountDTO> findAll() {
         return repository.findAll()
                 .stream()
@@ -61,7 +63,7 @@ public class AccountService {
     public List<AccountDTO> findAllAccountsByCnp(long cnp) {
         List<AccountDTO> listAccounts = new ArrayList<>();
         List<Long> listIdCnp = branchRepository.findAllAccountsByCnp(cnp);
-        if (listIdCnp.size()!=0) {
+        if (listIdCnp.size() != 0) {
             for (long l : listIdCnp) {
                 listAccounts.add(accountEntityToAccountMapper.convert(repository.findById(l)
                         .orElseThrow(() -> new RuntimeException("There is no user with the cnp " + cnp))));
@@ -73,15 +75,18 @@ public class AccountService {
         }
         return listAccounts;
     }
+
     public BigDecimal checkBalanceByIban(String iban) {
         return findAccountByIban(iban).getBalance();
     }
+
     @Transactional
     public BigDecimal depositInBank(String iban, double amountToDeposit) {
-        AccountDTO accountToDeposit = findAccountByIban(iban);
-        AccountEntity accountEntity=accountToAccountEntityMapper.convert(accountToDeposit);
-        accountEntity.setBalance(accountToDeposit.getBalance().add(BigDecimal.valueOf(amountToDeposit)));
-        accountEntity.setLastUpdated(LocalDateTime.now());
+       AccountEntity accountToDeposit = repository.findById(branchRepository.findIdByIban(iban))
+               .orElseThrow(()->new RuntimeException("The IBAN it's not valid"));
+
+       accountToDeposit.setBalance(accountToDeposit.getBalance().add(BigDecimal.valueOf(amountToDeposit)));
+        accountToDeposit.setLastUpdated(LocalDateTime.now());
 
         return accountToDeposit.getBalance();
     }
@@ -94,6 +99,22 @@ public class AccountService {
             accountEntity.setBalance(depositInBank(iban, -amountToWithdraw));
         } else {
             System.out.println("Insufficient funds \nWithdraw operation aborted");
+        }
+    }
+
+    @Transactional
+    public void withdrawAtPos(long cardNumber, int pin, long withdrawAmount) {
+        if (cardService.checkExpirationDate(cardNumber)) {
+            if (cardService.checkIfOkForWithdraw(cardNumber, pin)) {
+                if (withdrawAmount % 10 == 0 && withdrawAmount > 0) {
+                    withdrawInBank(cardService.findIbanByCardNumber(cardNumber), withdrawAmount);
+                } else {
+                    System.out.println("The withdraw amount must a positive value, multiple of 10\n" +
+                            "Please try again");
+                }
+            }
+        } else {
+            System.out.println("The withdraw can't be processed");
         }
     }
 

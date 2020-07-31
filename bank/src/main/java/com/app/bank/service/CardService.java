@@ -191,6 +191,10 @@ public class CardService {
         System.out.println("The card with the Card Number " + cardNumber + " was successfully deleted");
 
     }
+    public String findIbanByCardNumber(long cardNumber) {
+        return findCardByCardNumber(cardNumber).getIban();
+    }
+
 
 
 

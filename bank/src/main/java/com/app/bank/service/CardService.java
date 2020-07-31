@@ -102,21 +102,31 @@ public class CardService {
         }
     }
 
+    public CardDTO findCardByCardNumber(long cardNumber) {
 
-
-   /* @Transactional
-    public void blockCard(long cardNumber) {
-        Card cardToBeBlocked = cardRepository.findById(findCardIdByCardNumber(cardNumber))
-                .orElseThrow(() -> new RuntimeException("The Card with the Card Number" + cardNumber + " is not valid"));
-        if (checkIfCardIsActive(cardNumber)) {
-            cardToBeBlocked.setStatus(Status.BLOCKED);
-            cardToBeBlocked.setLastUpdated(LocalDateTime.now());
-        } else {
-            System.out.println("The Card with the Card Number + " + cardNumber + " is already Blocked " );
-
-        }
+        CardEntity cardEntity = repository.findById(findCardIdByCardNumber(cardNumber))
+                .orElseThrow(()->new RuntimeException("The card Number you have provided is not valid\n" +
+                        "Please try again"));
+        return cardEntityToCardMapper.convert(cardEntity);
     }
 
-    */
+    public boolean checkExpirationDate (long cardNumber) {
+        if (LocalDateTime.now().isBefore(findCardByCardNumber(cardNumber).getExpirationDate().minusMonths(6))) {
+            return true;
+        } else if((LocalDateTime.now().isBefore(findCardByCardNumber(cardNumber).getExpirationDate()))) {
+            System.out.println("The card will expire within the next 6 months");
+            return true;
+        }else {
+            System.out.println("Your card is expired\n" +
+                    "Your card will be blocked");
+            branchRepository.blockCard(findCardIdByCardNumber(cardNumber));
+            return false;}
+    }
+
+
+
+
+
+
 
 }

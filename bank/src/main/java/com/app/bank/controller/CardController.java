@@ -38,7 +38,7 @@ public class CardController {
     public void blockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
         cardService.blockCard(cardNumber);
     }
-    @PutMapping("/unblock/{cardNumber}")
+    @PatchMapping("/unblock/{cardNumber}")
     @ResponseStatus(HttpStatus.CREATED)
     public  void unblockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card){
         cardService.unblockCard(cardNumber);

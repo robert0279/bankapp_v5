@@ -19,12 +19,13 @@ public class CardDTO {
     private long id;
     private long cardNumber;
     private int pin;
+    private String iban;
 
     //@Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdated;
     private LocalDateTime expirationDate;
-    private AccountEntity accountEntity;
+   // private AccountEntity accountEntity;
 
 }

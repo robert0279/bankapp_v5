@@ -25,6 +25,7 @@ public class CardEntity {
 
     private long cardNumber;
     private int pin;
+    private String iban;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -36,9 +37,9 @@ public class CardEntity {
 
     private LocalDateTime expirationDate;
 
-    @JsonIgnore
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
-    @JoinColumn(name = "iban")
-    private AccountEntity accountEntity;
+   // @JsonIgnore
+   // @ToString.Exclude
+   // @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
+    //@JoinColumn(name = "iban")
+    //private AccountEntity accountEntity;
 }

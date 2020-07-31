@@ -24,7 +24,7 @@ public class UserDTO {
 
 
 
-    private List<AccountEntity> accounts;
+    //private List<AccountDTO> accounts;
 
 
 }

@@ -1,21 +1,62 @@
 package com.app.bank.repository;
 
+import com.app.bank.domain.entity.AccountEntity;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Repository
 public class BranchRepository {
+
     private static final String nameIBAN = "RO98INGB0000";
+
     private static final String ibanTableName = "iban";
+
     private static final String deletedAccount = "deleted_account";
+
     private static final String cardNumberTable = "card_number";
+
     private static final String deletedCard = "deleted_card";
+
     private static final String cardTable = "card";
 
+    private static final String accountTable = "account";
+
+    @SneakyThrows
+    public List<Long> findAllAccountsByCnp (long cnp){
+        List<Long> idList = new ArrayList<>();
+        String query ="select id from  " + accountTable + " where user_cnp=? ";
+        PreparedStatement preparedStatement = getPreparedStatement(query);
+        preparedStatement.setLong(1, cnp);
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        while (rs.next()){
+            idList.add(rs.getLong("id"));
+
+        }
+        return idList;
+
+    }
+
+    @SneakyThrows
+    public long findIdByIban (String iban) {
+        long id = 0L;
+        String query = "select id from  " + accountTable + " where iban = ?";
+        PreparedStatement preparedStatement = getPreparedStatement(query);
+        preparedStatement.setString(1, iban);
+        ResultSet rs = preparedStatement.executeQuery();
+
+        while (rs.next()) {
+            id = rs.getLong("id");
+        }
+        return id;
+    }
 
     //metode  IBAN
 // --> creeaza automat un IBAN nou pe care il adauga la coada tabelului
@@ -42,7 +83,7 @@ public class BranchRepository {
     }
 
     @SneakyThrows
-   private String getFirstIbanNo() {
+    private String getFirstIbanNo() {
         BranchRepository branchRepository = new BranchRepository();
         long a = 0L;
         String query = "select no_iban from " + ibanTableName + " where id=" + branchRepository.findFirstIbanId();
@@ -118,11 +159,12 @@ public class BranchRepository {
 
         preparedStatement.executeUpdate();
     }
+
     //add deleted card details (iban & card number) to deleted_card table;
     @SneakyThrows
-    public void addDeletedCardToTable(String iban, long cardNumber){
+    public void addDeletedCardToTable(String iban, long cardNumber) {
         String query = "insert into " + deletedCard + "(u_iban, card_number) values (?, ?) ";
-        PreparedStatement preparedStatement =getPreparedStatement(query);
+        PreparedStatement preparedStatement = getPreparedStatement(query);
         preparedStatement.setString(1, iban);
         preparedStatement.setLong(2, cardNumber);
 
@@ -207,10 +249,10 @@ public class BranchRepository {
     }
 
     @SneakyThrows
-    public void setLastUpdate (Date date, long id){
+    public void setLastUpdate(Date date, long id) {
         String query = "Update " + cardTable + " set Last_updated = ? where id = ?";
         PreparedStatement preparedStatement = getPreparedStatement(query);
-        preparedStatement.setDate(1,date);
+        preparedStatement.setDate(1, date);
         preparedStatement.setLong(2, id);
         preparedStatement.executeUpdate();
 
@@ -218,14 +260,14 @@ public class BranchRepository {
     }
 
     @SneakyThrows
-    public long findIdByCardNumber(long cardNumber){
-        long id=0;
+    public long findIdByCardNumber(long cardNumber) {
+        long id = 0;
         String query = "select id from " + cardTable + " id where card_number=?";
         PreparedStatement preparedStatement = getPreparedStatement(query);
         preparedStatement.setLong(1, cardNumber);
         ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()){
-            id=rs.getLong("id");
+        while (rs.next()) {
+            id = rs.getLong("id");
 
         }
         return id;
@@ -243,8 +285,9 @@ public class BranchRepository {
 
         }
     }
+
     @SneakyThrows
-    public void blockCard(long id){
+    public void blockCard(long id) {
         String query = "update " + cardTable + " set status = 'blocked' where id =?";
         PreparedStatement preparedStatement = getPreparedStatement(query);
         preparedStatement.setLong(1, id);
@@ -255,8 +298,10 @@ public class BranchRepository {
 
 
     public static void main(String[] args) {
-        BranchRepository branchRepository=new BranchRepository();
+        BranchRepository branchRepository = new BranchRepository();
         System.out.println("doar pt test " + branchRepository.findIdByCardNumber(1234123412340000L));
+        System.out.println(branchRepository.findIdByIban("RO98INGB0000100100100124"));
+        System.out.println(branchRepository.findAllAccountsByCnp(1910101020908L));
 
 
     }

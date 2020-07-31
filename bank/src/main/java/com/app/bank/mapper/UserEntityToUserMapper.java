@@ -25,7 +25,7 @@ public class UserEntityToUserMapper implements Converter<UserEntity, UserDTO> {
                 .firstName(source.getFirstName())
                 .cnp(source.getCnp())
                 .creationDate(source.getCreationDate())
-                .accounts(source.getAccounts())
+                //.accounts(mapAccountList(source.getAccounts()))
                 .build();
     }
 private List<AccountDTO> mapAccountList (List<AccountEntity> accountEntities){
@@ -35,5 +35,7 @@ private List<AccountDTO> mapAccountList (List<AccountEntity> accountEntities){
             .map(accountEntity -> accountEntityToAccountMapper.convert(accountEntity))
             .collect(Collectors.toList());
 }
+
+
 
 }

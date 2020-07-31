@@ -29,8 +29,8 @@ public class UserEntity {
     private LocalDateTime creationDate;
 
 
-    @OneToMany(mappedBy = "userEntity")
-    private List<AccountEntity> accounts;
+  //  @OneToMany(mappedBy = "userEntity")
+  //  private List<AccountEntity> accounts;
 
 
 }

@@ -21,9 +21,12 @@ public class AccountDTO {
       private long id;
       private String iban;
       private BigDecimal balance;
+
+      private long user_cnp;
+
       private LocalDateTime creationDate;
       private LocalDateTime lastUpdated;
-      private UserEntity userEntity;
-      private List<CardEntity> cards;
+     // private UserEntity userEntity;
+     // private List<CardEntity> cards;
 
 }

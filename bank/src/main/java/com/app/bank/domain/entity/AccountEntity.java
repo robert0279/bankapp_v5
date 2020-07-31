@@ -29,6 +29,8 @@ public class AccountEntity {
     private String iban;
     private BigDecimal balance;
 
+    private long  userCnp;
+
 
     @CreatedDate
     private LocalDateTime creationDate;
@@ -36,12 +38,12 @@ public class AccountEntity {
     private LocalDateTime lastUpdated;
 
  // @JsonIgnore
-  //@ToString.Exclude
-  @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
-  @JoinColumn(name = "user_cnp")
-  private UserEntity userEntity;
+ // @ToString.Exclude
+ // @ManyToOne(fetch = FetchType.LAZY) //by default e EAGER
+ // @JoinColumn(name = "user_cnp")
+ // private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "accountEntity")
-    private List<CardEntity> cards;
+   // @OneToMany(mappedBy = "accountEntity")
+   // private List<CardEntity> cards;
 
 }

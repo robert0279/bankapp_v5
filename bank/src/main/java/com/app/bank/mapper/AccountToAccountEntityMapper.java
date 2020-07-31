@@ -8,6 +8,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Dictionary;
 
 
@@ -19,8 +20,10 @@ public class AccountToAccountEntityMapper implements Converter<AccountDTO, Accou
     @Override
     public AccountEntity convert(AccountDTO source) {
         return AccountEntity.builder()
+                //.userCnp(source.getUser_cnp())
                 .balance(BigDecimal.valueOf(0.00))
                 .iban(branchRepository.generateIbanForAccount())
+                .lastUpdated(LocalDateTime.now())
                 .build();
     }
 }

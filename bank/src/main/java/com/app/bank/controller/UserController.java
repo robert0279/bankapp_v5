@@ -29,6 +29,10 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO findById(@PathVariable("id")long id){return userService.findById(id);}
+
     /*
  @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

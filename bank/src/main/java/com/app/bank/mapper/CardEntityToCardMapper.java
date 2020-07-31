@@ -15,6 +15,7 @@ public class CardEntityToCardMapper implements Converter<CardEntity, CardDTO> {
     public CardDTO convert(CardEntity source) {
         return CardDTO.builder()
                 .id(source.getId())
+                .iban(source.getIban())
                 .cardNumber(source.getCardNumber())
                 .pin(source.getPin())
                 .status(source.getStatus())

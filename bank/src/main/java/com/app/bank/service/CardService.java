@@ -34,6 +34,9 @@ public class CardService {
 
     private final BranchRepository branchRepository;
 
+    private static int flag = 0;
+    private static long tempCardNumber = 0;
+
     public List<CardDTO> findAll() {
         return repository.findAll()
                 .stream()
@@ -121,6 +124,61 @@ public class CardService {
                     "Your card will be blocked");
             branchRepository.blockCard(findCardIdByCardNumber(cardNumber));
             return false;}
+    }
+
+    public boolean checkIfOkForWithdraw(long cardNumber, int pin) {
+        if (checkIfCardIsActive(cardNumber)) {
+
+            if (findCardByCardNumber(cardNumber).getPin() == pin) {
+                return true;
+            } else if (cardNumber != tempCardNumber) {
+                tempCardNumber = cardNumber;
+                flag = 0;
+                System.out.println("The pin it's incorrect, please try again \n" +
+                        "You have 2 more attempts, before your card will be blocked");
+                flag=2;
+                return false;
+            } else if (flag!=3) {
+                flag += 1;
+                System.out.println("The pin it's incorrect, please try again\n" +
+                        "You have one more attempt to provide the right pin, otherwise your card will be blocked");
+                return false;
+            } else {
+                System.out.println("You have provided 3 times an incorrect pin, therefore your card is blocked\n" +
+                        "Please contact our bank helpDesk");
+                flag =0;
+                branchRepository.blockCard(findCardIdByCardNumber(cardNumber));
+                // branchRepository.setLastUpdate(Date.valueOf(LocalDateTime.now().toLocalDate()), findCardIdByCardNumber(cardNumber));
+                findCardByCardNumber(cardNumber).setLastUpdated(LocalDateTime.now());
+            }
+
+
+        }  else {
+            System.out.println("Your card with the card number " + cardNumber + " is blocked\n" +
+                    "The withdraw operation was aborted\n" +
+                    "Please contact our bank helpDesk");
+            return false;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void changePin (long cardNumber, int initialPin,int newPin, int newPinAgain){
+        CardEntity cardToChangePin =cardToCardEntityMapper.convert( findCardByCardNumber(cardNumber));
+        if (cardToChangePin.getPin() == initialPin && initialPin !=newPin){
+            if (newPin == newPinAgain){
+                cardToChangePin.setPin(newPin);
+                cardToChangePin.setLastUpdated(LocalDateTime.now());
+                System.out.println("The Pin was successfully changed \n" +
+                        "The new pin number is " + cardToChangePin.getPin());
+            } else {
+                System.out.println("Your new pin does not match with the retyped new pin\n" +
+                        "Please try again");
+            }
+        }else {
+            System.out.println("You must provide the right existing pin, and this must be different from the new pin\n" +
+                    "Please try again");
+        }
     }
 
 

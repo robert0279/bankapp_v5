@@ -12,7 +12,10 @@ import com.app.bank.repository.BranchRepository;
 import com.app.bank.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,6 +72,29 @@ public class AccountService {
             return null;
         }
         return listAccounts;
+    }
+    public BigDecimal checkBalanceByIban(String iban) {
+        return findAccountByIban(iban).getBalance();
+    }
+    @Transactional
+    public BigDecimal depositInBank(String iban, double amountToDeposit) {
+        AccountDTO accountToDeposit = findAccountByIban(iban);
+        AccountEntity accountEntity=accountToAccountEntityMapper.convert(accountToDeposit);
+        accountEntity.setBalance(accountToDeposit.getBalance().add(BigDecimal.valueOf(amountToDeposit)));
+        accountEntity.setLastUpdated(LocalDateTime.now());
+
+        return accountToDeposit.getBalance();
+    }
+
+    @Transactional
+    public void withdrawInBank(String iban, double amountToWithdraw) {
+        if (checkBalanceByIban(iban).compareTo(BigDecimal.valueOf(amountToWithdraw)) >= 0) {
+            AccountDTO accountToWithdraw = findAccountByIban(iban);
+            AccountEntity accountEntity = accountToAccountEntityMapper.convert(accountToWithdraw);
+            accountEntity.setBalance(depositInBank(iban, -amountToWithdraw));
+        } else {
+            System.out.println("Insufficient funds \nWithdraw operation aborted");
+        }
     }
 
 

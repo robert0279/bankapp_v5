@@ -37,5 +37,11 @@ public class AccountController {
     public AccountDTO createAccount(@PathVariable ("id") long id,  @RequestBody AccountDTO accountDTO){
         return accountService.createAccount(accountDTO,id);
     }
+    @PutMapping ("/withdraw/{iban}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void withdraw (@PathVariable("iban") String iban, @RequestParam("withdraw") double withdraw, @RequestBody AccountDTO account){
+        accountService.withdrawInBank(iban, withdraw);
+        System.out.println("The new amount for account no " + iban + " is " + accountService.checkBalanceByIban(iban) + " $");
+    }
 
 }

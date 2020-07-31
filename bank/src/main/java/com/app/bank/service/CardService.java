@@ -183,6 +183,15 @@ public class CardService {
         }
     }
 
+    public void deleteCardByCardNumber(long cardNumber) {
+        CardEntity cardToBeDeleted = repository.findById(findCardIdByCardNumber(cardNumber))
+                .orElseThrow(() -> new RuntimeException("The card with the Card Number " + cardNumber + " does not txists"));
+        branchRepository.addDeletedCardToTable(cardToBeDeleted.getIban(), cardNumber);
+        repository.deleteById(cardToBeDeleted.getId());
+        System.out.println("The card with the Card Number " + cardNumber + " was successfully deleted");
+
+    }
+
 
 
 

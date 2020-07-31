@@ -58,5 +58,9 @@ public class CardController {
     public CardDTO createCard(@PathVariable("iban") String iban, CardDTO cardDTO) {
         return cardService.create(iban, cardDTO);
     }
+    @DeleteMapping("/delete/{cardNumber}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCardByCardNumber (@PathVariable("cardNumber") long cardNumber){
+        cardService.deleteCardByCardNumber(cardNumber);}
 
 }

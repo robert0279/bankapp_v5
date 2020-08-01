@@ -59,5 +59,11 @@ public class AccountController {
         accountService.depositInBank(iban,depositAmount);
         System.out.println("the new amount for account no " + iban + " is " + accountService.checkBalanceByIban(iban) + " $");
     }
+    @PatchMapping("/transfer/{amountToTransfer}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void transfer(@PathVariable("amountToTransfer") double amountToTransfer, @RequestParam("ibanFrom") String ibanFrom,
+                         @RequestParam("ibanTo")String ibanTo){
+        accountService.transferMoney(ibanFrom, ibanTo, amountToTransfer);
+    }
 
 }

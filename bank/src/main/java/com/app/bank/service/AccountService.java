@@ -117,6 +117,21 @@ public class AccountService {
             System.out.println("The withdraw can't be processed");
         }
     }
+    @Transactional
+    public void transferMoney(String ibanToTransferFrom, String ibanToTransferTo, double amountToTransfer) {
+        AccountEntity accountToTransferFrom = repository.findById(branchRepository.findIdByIban(ibanToTransferFrom))
+                .orElseThrow(()->new RuntimeException("The IBAN you gave to transfer the money FROM does not exists"));
+        AccountEntity accountToTransferTo = repository.findById(branchRepository.findIdByIban(ibanToTransferTo))
+                .orElseThrow(()->new RuntimeException("The IBAN you gave to transfer the money TO does not exists"));
+        if (checkBalanceByIban(ibanToTransferFrom).compareTo(BigDecimal.valueOf(amountToTransfer)) >= 0) {
+            accountToTransferFrom.setBalance(depositInBank(ibanToTransferFrom, -amountToTransfer));
+            accountToTransferTo.setBalance(depositInBank(ibanToTransferTo, amountToTransfer));
+            System.out.println("Your transfer was executed\n");
+
+        }
+    }
+
+
 
 
 }

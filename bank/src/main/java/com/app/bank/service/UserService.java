@@ -9,7 +9,9 @@ import com.app.bank.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +42,16 @@ public class UserService {
 
         return userEntityToUserMapper.convert(userEntity);
 
+    }
+
+    public List<UserDTO> findAllByName (String lastName){
+       List<UserDTO> listUser = new ArrayList<>();
+       UserEntity temp = new UserEntity();
+       for (Optional<UserEntity> optional :repository.findAllByLastName(lastName)){
+           temp=optional.orElseThrow(()->new RuntimeException("There is no user with this name " + lastName));
+           listUser.add(userEntityToUserMapper.convert(temp));
+       }
+             return listUser;
     }
 
 

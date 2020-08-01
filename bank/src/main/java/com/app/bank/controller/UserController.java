@@ -33,13 +33,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserDTO findById(@PathVariable("id")long id){return userService.findById(id);}
 
-    /*
- @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User createUser (@RequestBody User user){
-        return userService.createUser(user);
+    @GetMapping("/name/{lastName}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> findByName(@PathVariable("lastName")String lastName){
+        return userService.findAllByName(lastName);
     }
-     */
 
 
 }

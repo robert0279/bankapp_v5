@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-
 public class UserEntity {
 
     @Id
@@ -25,6 +24,7 @@ public class UserEntity {
     private String lastName;
     private String firstName;
     private long cnp;
+
     @CreatedDate
     private LocalDateTime creationDate;
 

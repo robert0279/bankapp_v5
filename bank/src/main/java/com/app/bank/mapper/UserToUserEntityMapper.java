@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @AllArgsConstructor
-
 public class UserToUserEntityMapper implements Converter<UserDTO, UserEntity> {
 
     @Override
     public UserEntity convert(UserDTO source) {
-      return      UserEntity.builder()
+        return UserEntity.builder()
                 .lastName(source.getLastName())
                 .firstName(source.getFirstName())
                 .cnp(source.getCnp())
-               // .creationDate(source.getCreationDate())
+
+                // .creationDate(source.getCreationDate())
                 .build();
-}
+    }
 }

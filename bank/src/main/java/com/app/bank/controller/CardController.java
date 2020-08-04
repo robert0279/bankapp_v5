@@ -22,9 +22,9 @@ public class CardController {
         return cardService.findAll();
     }
 
-    @GetMapping("/cardNumber/{cardNumber}")
+    @GetMapping("/cardNumber")
     @ResponseStatus(HttpStatus.OK)
-    public long findIdByCardNumber(@PathVariable("cardNumber") long cardNumber) {
+    public long findIdByCardNumber(@RequestParam("cardNumber") long cardNumber) {
         return cardService.findCardIdByCardNumber(cardNumber);
     }
 
@@ -34,21 +34,21 @@ public class CardController {
         return cardService.findStatusById(id);
     }
 
-    @PutMapping("/block/{cardNumber}")
+    @PutMapping("/block")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void blockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card) {
+    public void blockCardByCardNumber(@RequestParam("cardNumber") long cardNumber, @RequestBody CardDTO card) {
         cardService.blockCard(cardNumber);
     }
 
-    @PatchMapping("/unblock/{cardNumber}")
+    @PatchMapping("/unblock")
     @ResponseStatus(HttpStatus.CREATED)
-    public void unblockCardByCardNumber(@PathVariable("cardNumber") long cardNumber, @RequestBody CardDTO card) {
+    public void unblockCardByCardNumber(@RequestParam("cardNumber") long cardNumber, @RequestBody CardDTO card) {
         cardService.unblockCard(cardNumber);
     }
 
-    @PatchMapping("/pin/{cardNumber}")
+    @PatchMapping("/changePin")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changePin(@PathVariable("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
+    public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
                           @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain) {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
@@ -58,9 +58,9 @@ public class CardController {
     public CardDTO createCard(@PathVariable("id") long id, @RequestBody CardDTO cardDTO) {
         return cardService.create(id, cardDTO);
     }
-    @DeleteMapping("/delete/{cardNumber}")
+    @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCardByCardNumber (@PathVariable("cardNumber") long cardNumber){
+    public void deleteCardByCardNumber (@RequestParam("cardNumber") long cardNumber){
         cardService.deleteCardByCardNumber(cardNumber);}
 
 }

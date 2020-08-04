@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cards")
+@RequestMapping("users/accounts/{id}/cards")
 @AllArgsConstructor
 public class CardController {
 
@@ -53,7 +53,7 @@ public class CardController {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public CardDTO createCard(@PathVariable("id") long id, @RequestBody CardDTO cardDTO) {
         return cardService.create(id, cardDTO);

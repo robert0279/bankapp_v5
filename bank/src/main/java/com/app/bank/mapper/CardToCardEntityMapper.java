@@ -21,8 +21,8 @@ public class CardToCardEntityMapper implements Converter<CardDTO, CardEntity> {
                 .cardNumber(branchRepository.passNewCardNumberToNewCard())
                 .pin(1234)
                 .status(Status.ACTIVE)
-                .creationDate(LocalDateTime.now())
-                .lastUpdated(LocalDateTime.now())
+                //.creationDate(LocalDateTime.now())
+               // .lastUpdated(LocalDateTime.now())
                 .expirationDate(LocalDateTime.now().plusYears(2L))
                 .build();
     }

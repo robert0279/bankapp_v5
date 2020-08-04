@@ -35,6 +35,7 @@ public class CardEntity {
     @LastModifiedDate
     private LocalDateTime lastUpdated;
 
+
     private LocalDateTime expirationDate;
 
    // @JsonIgnore

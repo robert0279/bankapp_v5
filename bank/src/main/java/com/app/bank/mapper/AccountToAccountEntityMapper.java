@@ -23,7 +23,7 @@ public class AccountToAccountEntityMapper implements Converter<AccountDTO, Accou
                 //.userCnp(source.getUser_cnp())
                 .balance(BigDecimal.valueOf(0.00))
                 .iban(branchRepository.generateIbanForAccount())
-                .lastUpdated(LocalDateTime.now())
+                //.lastUpdated(LocalDateTime.now())
                 .build();
     }
 }

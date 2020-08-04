@@ -170,7 +170,7 @@ public class CardService {
         if (cardToChangePin.getPin() == initialPin && initialPin !=newPin){
             if (newPin == newPinAgain){
                 cardToChangePin.setPin(newPin);
-                cardToChangePin.setLastUpdated(LocalDateTime.now());
+                //cardToChangePin.setLastUpdated(LocalDateTime.now());
                 System.out.println("The Pin was successfully changed \n" +
                         "The new pin number is " + cardToChangePin.getPin());
             } else {

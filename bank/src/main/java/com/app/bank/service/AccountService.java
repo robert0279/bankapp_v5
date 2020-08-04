@@ -86,7 +86,7 @@ public class AccountService {
                .orElseThrow(()->new RuntimeException("The IBAN it's not valid"));
 
        accountToDeposit.setBalance(accountToDeposit.getBalance().add(BigDecimal.valueOf(amountToDeposit)));
-        accountToDeposit.setLastUpdated(LocalDateTime.now());
+        //accountToDeposit.setLastUpdated(LocalDateTime.now());
 
         return accountToDeposit.getBalance();
     }

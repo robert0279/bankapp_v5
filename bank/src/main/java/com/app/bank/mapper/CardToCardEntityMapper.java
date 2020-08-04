@@ -20,7 +20,7 @@ public class CardToCardEntityMapper implements Converter<CardDTO, CardEntity> {
         return CardEntity.builder()
                 .cardNumber(branchRepository.passNewCardNumberToNewCard())
                 .pin(1234)
-                .status(Status.ACTIVE)
+                .status(Status.PENDING)
                 //.creationDate(LocalDateTime.now())
                // .lastUpdated(LocalDateTime.now())
                 .expirationDate(LocalDateTime.now().plusYears(2L))

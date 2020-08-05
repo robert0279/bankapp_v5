@@ -46,7 +46,6 @@ public class CardController {
         cardService.unblockCard(cardNumber);
     }
 
-
     @PatchMapping("/changePin")
     @ResponseStatus(HttpStatus.CREATED)
     public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestParam("initialPin") String initialPin,

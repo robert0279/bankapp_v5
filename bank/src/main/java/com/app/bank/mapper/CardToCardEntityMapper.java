@@ -9,6 +9,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Component
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class CardToCardEntityMapper implements Converter<CardDTO, CardEntity> {
     public CardEntity convert(CardDTO source) {
         return CardEntity.builder()
                 .cardNumber(branchRepository.passNewCardNumberToNewCard())
-                .pin(1234)
+                .pin( String.format("%04d",  new Random().nextInt(10000)))
                 .status(Status.PENDING)
                 //.creationDate(LocalDateTime.now())
                // .lastUpdated(LocalDateTime.now())

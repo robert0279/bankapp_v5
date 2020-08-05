@@ -18,7 +18,7 @@ public class CardDTO {
 
     private long id;
     private long cardNumber;
-    private int pin;
+    private String pin;
     private String iban;
 
     //@Enumerated(EnumType.STRING)

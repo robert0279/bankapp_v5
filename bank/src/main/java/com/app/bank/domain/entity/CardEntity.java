@@ -3,12 +3,16 @@ package com.app.bank.domain.entity;
 import com.app.bank.domain.model.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
+import java.util.Random;
 
 @Entity
 @Table(name = "card")
@@ -21,10 +25,13 @@ public class CardEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
 
     private long cardNumber;
-    private int pin;
+
+
+    private String pin;
     private String iban;
 
     @Enumerated(EnumType.STRING)

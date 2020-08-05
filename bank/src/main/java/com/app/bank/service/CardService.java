@@ -130,7 +130,7 @@ public class CardService {
     public boolean checkIfOkForWithdraw(long cardNumber, int pin) {
         if (checkIfCardIsActive(cardNumber)) {
 
-            if (findCardByCardNumber(cardNumber).getPin() == pin) {
+            if (findCardByCardNumber(cardNumber).getPin().equals( pin)) {
                 return true;
             } else if (cardNumber != tempCardNumber) {
                 tempCardNumber = cardNumber;
@@ -164,11 +164,11 @@ public class CardService {
     }
 
     @Transactional
-    public void changePin (long cardNumber, int initialPin,int newPin, int newPinAgain){
+    public void changePin (long cardNumber, String initialPin, String newPin, String newPinAgain){
         CardEntity cardToChangePin = repository.findById(branchRepository.findIdByCardNumber(cardNumber))
                 .orElseThrow(()->new RuntimeException("The Card number is wrong"));
-        if (cardToChangePin.getPin() == initialPin && initialPin !=newPin){
-            if (newPin == newPinAgain){
+        if (cardToChangePin.getPin().equals( initialPin) && !initialPin.equals(newPin)){
+            if (newPin .equals(newPinAgain)){
                 cardToChangePin.setPin(newPin);
                 //cardToChangePin.setLastUpdated(LocalDateTime.now());
                 System.out.println("The Pin was successfully changed \n" +

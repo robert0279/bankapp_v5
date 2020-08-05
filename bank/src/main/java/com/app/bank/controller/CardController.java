@@ -48,8 +48,8 @@ public class CardController {
 
     @PatchMapping("/changePin")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestParam("initialPin") int initialPin,
-                          @RequestParam("newPin") int newPin, @RequestParam("newPinAgain") int newPinAgain) {
+    public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestParam("initialPin") String initialPin,
+                          @RequestParam("newPin") String newPin, @RequestParam("newPinAgain") String newPinAgain) {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
 

@@ -5,12 +5,14 @@ import com.app.bank.domain.entity.UserEntity;
 import com.app.bank.domain.model.UserDTO;
 import com.app.bank.exception.UserNotFindException;
 import com.app.bank.service.UserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "http_basic")
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor

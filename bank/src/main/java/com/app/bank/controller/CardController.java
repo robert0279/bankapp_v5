@@ -3,12 +3,14 @@ package com.app.bank.controller;
 import com.app.bank.domain.model.CardDTO;
 import com.app.bank.domain.model.Status;
 import com.app.bank.service.CardService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "http_basic")
 @RestController
 @RequestMapping("users/accounts/{id}/cards")
 @AllArgsConstructor

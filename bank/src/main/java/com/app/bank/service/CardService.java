@@ -34,6 +34,7 @@ public class CardService {
     private final AccountRepository accountRepository;
 
     private final BranchRepository branchRepository;
+    private final EmailService mailService;
 
     private static int flag = 0;
     private static long tempCardNumber = 0;
@@ -53,6 +54,7 @@ public class CardService {
       CardEntity cardTobeSaved = cardToCardEntityMapper.convert(cardDTO);
       cardTobeSaved.setIban(accountEntity.getIban());
       repository.save(cardTobeSaved);
+      mailService.sendEmail("robert.serbanoiu@yahoo.com", "Pin number from the bank", "your Pin number is " + cardTobeSaved.getPin());
       return cardEntityToCardMapper.convert(cardTobeSaved);
     }
     public long findCardIdByCardNumber(long cardNumber) {

@@ -3,6 +3,7 @@ package com.app.bank.controller;
 import com.app.bank.domain.model.CardDTO;
 import com.app.bank.domain.model.Status;
 import com.app.bank.service.CardService;
+import com.app.bank.service.EmailService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CardController {
 
     private final CardService cardService;
+    private final EmailService mailService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -64,6 +66,15 @@ public class CardController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCardByCardNumber (@RequestParam("cardNumber") long cardNumber){
         cardService.deleteCardByCardNumber(cardNumber);}
+
+        @GetMapping("/email")
+    public String sendMail (@RequestParam("to") String to, @RequestParam("subject") String subject, @RequestParam("txt") String txt){
+        mailService.sendEmail(to, subject, txt);
+        return txt;
+        }
+
+
+
 
 
 }

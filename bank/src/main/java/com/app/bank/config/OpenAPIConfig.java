@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
                 description = "BankApp is a small bank application which allows: user creation, account creation/delete, card creation/delete," +
                         "withdraw in the bank cask desk/pos, deposit money in the bank cash desk, transfer money only between declared accounts," +
                         "block/unblock (set ACTIVE status) cards, change pin  ",
-                license = @License(name = "Apache Licence 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"),
+               // license = @License(name = "Apache Licence 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"),
                 version = "1.0"
 
 

@@ -22,6 +22,7 @@ public class AccountToAccountEntityMapper implements Converter<AccountDTO, Accou
         return AccountEntity.builder()
                 //.userCnp(source.getUser_cnp())
                 .balance(BigDecimal.valueOf(0.00))
+                .email(source.getEmail())
                 .iban(branchRepository.generateIbanForAccount())
                 //.lastUpdated(LocalDateTime.now())
                 .build();

@@ -17,6 +17,7 @@ public class AccountEntityToAccountMapper implements Converter<AccountEntity, Ac
                 .iban(source.getIban())
                 .balance(source.getBalance())
                 .user_cnp(source.getUserCnp())
+                .email(source.getEmail())
                 //.userEntity(source.getUserEntity())
                 .creationDate(source.getCreationDate())
                 .lastUpdated(source.getLastUpdated())

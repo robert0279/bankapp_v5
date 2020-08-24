@@ -28,6 +28,7 @@ public class AccountEntity {
 
     private String iban;
     private BigDecimal balance;
+    private String email;
 
     private long  userCnp;
 

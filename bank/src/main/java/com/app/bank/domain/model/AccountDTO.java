@@ -21,6 +21,7 @@ public class AccountDTO {
       private long id;
       private String iban;
       private BigDecimal balance;
+      private String email;
 
       private long user_cnp;
 

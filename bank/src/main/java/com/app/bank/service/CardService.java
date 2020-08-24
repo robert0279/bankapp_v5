@@ -1,5 +1,6 @@
 package com.app.bank.service;
 
+import com.app.bank.config.PinEncoderConfig;
 import com.app.bank.domain.entity.AccountEntity;
 import com.app.bank.domain.entity.CardEntity;
 import com.app.bank.domain.model.AccountDTO;
@@ -13,6 +14,8 @@ import com.app.bank.repository.BranchRepository;
 import com.app.bank.repository.CardRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-
+@Configuration
 public class CardService {
 
     private final CardRepository repository;
@@ -35,6 +38,10 @@ public class CardService {
 
     private final BranchRepository branchRepository;
     private final EmailService mailService;
+
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    //private final PinEncoderConfig pinEncoder;
 
     private static int flag = 0;
     private static long tempCardNumber = 0;
@@ -52,9 +59,12 @@ public class CardService {
              .orElseThrow(()-> new RuntimeException("The Account Id " + accountId + "you have provided, does not exists") );
 
       CardEntity cardTobeSaved = cardToCardEntityMapper.convert(cardDTO);
+        mailService.sendEmail(accountEntity.getEmail(), "Pin number from the bank" , "your Pin number is " + cardTobeSaved.getPin());
       cardTobeSaved.setIban(accountEntity.getIban());
+
+      cardTobeSaved.setPin(passwordEncoder.encode(cardTobeSaved.getPin()));
       repository.save(cardTobeSaved);
-      mailService.sendEmail("robert.serbanoiu@yahoo.com", "Pin number from the bank", "your Pin number is " + cardTobeSaved.getPin());
+
       return cardEntityToCardMapper.convert(cardTobeSaved);
     }
     public long findCardIdByCardNumber(long cardNumber) {

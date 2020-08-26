@@ -1,6 +1,7 @@
 package com.app.bank.controller;
 
 import com.app.bank.domain.model.CardDTO;
+import com.app.bank.domain.model.PinDTO;
 import com.app.bank.domain.model.Status;
 import com.app.bank.service.CardService;
 import com.app.bank.service.EmailService;
@@ -52,9 +53,8 @@ public class CardController {
 
     @PatchMapping("/changePin")
     @ResponseStatus(HttpStatus.CREATED)
-    public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestParam("initialPin") String initialPin,
-                          @RequestParam("newPin") String newPin, @RequestParam("newPinAgain") String newPinAgain) {
-        cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
+    public void changePin(@RequestParam("cardNumber") long cardNumber, @RequestBody PinDTO pinDTO) {
+        cardService.changePin(cardNumber,pinDTO);
     }
     @PatchMapping("/resetPin")
     @ResponseStatus(HttpStatus.CREATED)

@@ -5,6 +5,7 @@ import com.app.bank.domain.entity.AccountEntity;
 import com.app.bank.domain.entity.CardEntity;
 import com.app.bank.domain.model.AccountDTO;
 import com.app.bank.domain.model.CardDTO;
+import com.app.bank.domain.model.PinDTO;
 import com.app.bank.domain.model.Status;
 import com.app.bank.exception.UserNotFindException;
 import com.app.bank.mapper.CardEntityToCardMapper;
@@ -59,16 +60,16 @@ public class CardService {
 
 
     @Transactional
-    public void changePin(long cardNumber, String initialPin, String newPin, String newPinAgain) {
+    public void changePin(long cardNumber, PinDTO pinDTO) {
         CardEntity cardToChangePin = repository.findById(branchRepository.findIdByCardNumber(cardNumber))
                 .orElseThrow(() -> new RuntimeException("The Card number is wrong"));
-        if (passwordEncoder.matches(initialPin, cardToChangePin.getPin())) {
+        if (passwordEncoder.matches(pinDTO.getInitialPin(), cardToChangePin.getPin())) {
 
-            if (newPin.equals(newPinAgain)) {
-                cardToChangePin.setPin(passwordEncoder.encode(newPin));
+            if (pinDTO.getNewPin().equals(pinDTO.getNewPinAgain())) {
+                cardToChangePin.setPin(passwordEncoder.encode(pinDTO.getNewPin()));
                 //cardToChangePin.setLastUpdated(LocalDateTime.now());
                 System.out.println("The Pin was successfully changed \n" +
-                        "The new pin number is " + newPin);
+                        "The new pin number is " + pinDTO.getNewPin());
             } else {
                 System.out.println("Your new pin does not match with the retyped new pin\n" +
                         "Please try again");

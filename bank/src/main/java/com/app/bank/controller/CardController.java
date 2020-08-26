@@ -56,6 +56,11 @@ public class CardController {
                           @RequestParam("newPin") String newPin, @RequestParam("newPinAgain") String newPinAgain) {
         cardService.changePin(cardNumber, initialPin, newPin, newPinAgain);
     }
+    @PatchMapping("/resetPin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void resetPin(@RequestParam("cardNumber")long cardNumber){
+        cardService.resetPin(cardNumber);
+    }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

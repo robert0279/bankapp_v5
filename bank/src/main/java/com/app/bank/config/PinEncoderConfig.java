@@ -17,11 +17,11 @@ public class PinEncoderConfig extends WebSecurityConfigurerAdapter {
   }
 
 
-    @Bean
-    public BCryptPasswordEncoder pinEncoder (){
+   @Bean
+   public BCryptPasswordEncoder pinEncoder (){
 
-        return new BCryptPasswordEncoder(4);
+       return new BCryptPasswordEncoder(4);
 
-    }
+   }
 
 }
